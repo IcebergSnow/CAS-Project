@@ -7,6 +7,7 @@ import torchvision.models as models
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 from torchvision.models import ResNet18_Weights
+from tqdm import tqdm
 
 #Preparing the images
 transform = transforms.Compose([
@@ -15,14 +16,16 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std = [0.229, 0.224, 0.225]) #ImageNet Normalization Values
 ])
 
-train_directory = "/Users/iceberg/Downloads/7711810/EuroSAT_RGB/DataSet/Train" #Replace with your own path
-validate_directory = "/Users/iceberg/Downloads/7711810/EuroSAT_RGB/DataSet/Validate" #Replace with your own path
+# Set your data and model paths here
+train_directory = "DataSet/Train"
+validate_directory = "DataSet/Validate"
+model_save_path = "model.pth"
 
 train_dataset = datasets.ImageFolder(root=train_directory, transform=transform)
 validate_dataset = datasets.ImageFolder(root=validate_directory, transform=transform)
 
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-validate_loader = DataLoader(validate_dataset, batch_size=32, shuffle=False)
+train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
+validate_loader = DataLoader(validate_dataset, batch_size=128, shuffle=False)
 
 
 #Defining the model (will be using resnet)
@@ -47,22 +50,42 @@ optimizer = torch.optim.Adam(model.parameters(), lr= 0.001)
 
 total_epochs = 10
 for epoch in range(total_epochs):
-  print(f"Epoch:{epoch+1}")
-  # Training Loop
-  model.train()
-  
-  for images, labels in train_loader:
-    images, labels = images.to(device), labels.to(device) #Move the images over to gpu
+    model.train()
+    running_loss = 0.0
     
-    #Forward Pass
-    outputs = model(images)
-    loss = loss_function(outputs, labels)
+    # Create progress bar for each epoch
+    progress_bar = tqdm(
+        train_loader,
+        desc=f"Epoch {epoch+1}/{total_epochs}",
+        leave=True
+    )
     
-    #Backprop 
-    optimizer.zero_grad() #Clear gradients
-    loss.backward() 
-    optimizer.step() #Update parameters
+    for batch_idx, (images, labels) in enumerate(progress_bar):
+        images, labels = images.to(device), labels.to(device)
+        
+        #Forward Pass
+        outputs = model(images)
+        loss = loss_function(outputs, labels)
+        
+        #Backprop 
+        optimizer.zero_grad()
+        loss.backward() 
+        optimizer.step()
+        
+        # Update running loss
+        running_loss += loss.item()
+        
+        # Update progress bar description with current loss
+        progress_bar.set_postfix({
+            'batch': f'{batch_idx+1}/{len(train_loader)}',
+            'loss': f'{loss.item():.4f}',
+            'avg_loss': f'{running_loss/(batch_idx+1):.4f}'
+        })
     
-   
-save_path = "/Users/iceberg/Downloads/7711810/EuroSAT_RGB/model.pth"   #CHANGE PATH TO YOUR OWN
-torch.save(model, save_path)
+    # Print epoch summary
+    epoch_loss = running_loss / len(train_loader)
+    print(f"\nEpoch {epoch+1} Summary:")
+    print(f"Average Loss: {epoch_loss:.4f}")
+    print("-" * 50)
+
+torch.save(model, model_save_path)

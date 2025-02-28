@@ -14,11 +14,11 @@ transform = transforms.Compose([
 ])
 
 
-test_directory = "/Users/iceberg/Downloads/7711810/EuroSAT_RGB/DataSet/Test" #Path to test data
+test_directory = "DataSet/Test" #Path to test data
 test_dataset = datasets.ImageFolder(root=test_directory, transform=transform) #Same transform as training
 test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
-model = torch.load("/Users/iceberg/Downloads/7711810/EuroSAT_RGB/model.pth")
+model = torch.load("model.pth")
 model.to(torch.device("mps")) #change if using windows
 
 model.eval()
