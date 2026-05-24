@@ -109,6 +109,14 @@ Evaluate the saved model on the test set:
 python evaluate.py
 ```
 
+The evaluation script prints overall accuracy, per-class accuracy, and saves a confusion matrix image to `confusion_matrix.png`.
+
+To choose a different confusion matrix output path:
+
+```bash
+python evaluate.py --confusion-matrix-path results/confusion_matrix.png
+```
+
 Train the model again:
 
 ```bash
@@ -132,7 +140,8 @@ The project currently includes:
 - A training script using transfer learning
 - Validation loss and accuracy tracking during training
 - Best-model checkpointing based on validation accuracy
-- An evaluation script that reports classification accuracy
+- An evaluation script that reports overall accuracy and per-class accuracy
+- Confusion matrix generation for test results
 - A saved trained model file
 - A train/validation/test dataset split
 - A requirements file for installing dependencies
@@ -142,7 +151,6 @@ The project currently includes:
 Potential next steps include:
 
 - Add training and validation loss graphs
-- Add a confusion matrix for test results
 - Add a single-image prediction script
 - Save model weights separately from model architecture for safer checkpoint loading
 
