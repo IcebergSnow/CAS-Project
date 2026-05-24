@@ -1,4 +1,11 @@
 import argparse
+import os
+import tempfile
+
+os.environ.setdefault(
+    "MPLCONFIGDIR",
+    os.path.join(tempfile.gettempdir(), "cas-project-matplotlib"),
+)
 
 import matplotlib
 
