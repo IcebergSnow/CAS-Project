@@ -30,6 +30,16 @@ def build_transform():
     ])
 
 
+def get_probabilities(outputs):
+    if torch.all(outputs >= 0) and torch.allclose(
+        outputs.sum(dim=1),
+        torch.ones(outputs.size(0), device=outputs.device),
+        atol=1e-4,
+    ):
+        return outputs
+    return torch.softmax(outputs, dim=1)
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Predict the land-use class for one image.")
     parser.add_argument("image_path", help="Path to the image to classify.")
@@ -57,7 +67,7 @@ def main():
 
     with torch.no_grad():
         outputs = model(image_tensor)
-        probabilities = torch.softmax(outputs, dim=1)[0]
+        probabilities = get_probabilities(outputs)[0]
         confidence, predicted_index = torch.max(probabilities, dim=0)
 
     predicted_class = CLASS_NAMES[predicted_index.item()]
