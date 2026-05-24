@@ -21,6 +21,7 @@ CAS-Project/
     Train/
     Validate/
     Test/
+  model_utils.py
   train.py
   main.py
   evaluate.py
@@ -132,11 +133,17 @@ Train the model again:
 python train.py
 ```
 
-The training script reports training loss, validation loss, and validation accuracy for each epoch. It saves the best model checkpoint to `model.pth` based on validation accuracy.
+The training script reports training loss, validation loss, and validation accuracy for each epoch. It saves the best model weights to `model_weights.pth` based on validation accuracy.
 
 For compatibility, `python main.py` also starts training.
 
 All scripts expect the dataset to be located in the `DataSet/` folder using the structure shown above.
+
+## Checkpoints
+
+New training runs save model weights to `model_weights.pth`, which is the recommended PyTorch checkpoint format for this project.
+
+Evaluation and prediction prefer `model_weights.pth` when it exists. If it does not exist, they fall back to the existing full-model checkpoint, `model.pth`, so the project still works immediately after cloning.
 
 ## Device Note
 
@@ -146,9 +153,10 @@ The training, evaluation, and prediction scripts automatically choose between Ap
 
 The project currently includes:
 
+- Shared model, transform, device, and checkpoint utilities
 - A training script using transfer learning
 - Validation loss and accuracy tracking during training
-- Best-model checkpointing based on validation accuracy
+- Best-model weights checkpointing based on validation accuracy
 - An evaluation script that reports overall accuracy and per-class accuracy
 - Confusion matrix generation for test results
 - A single-image prediction script
@@ -161,6 +169,4 @@ The project currently includes:
 Potential next steps include:
 
 - Add training and validation loss graphs
-- Save model weights separately from model architecture for safer checkpoint loading
-
-
+- Generate and include a `model_weights.pth` checkpoint from a strong training run

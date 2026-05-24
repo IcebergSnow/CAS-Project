@@ -3,33 +3,10 @@ import argparse
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
-import torchvision.models as models
-from torchvision.models import ResNet18_Weights
+from torchvision import datasets
 from tqdm import tqdm
 
-
-def get_device():
-    if torch.backends.mps.is_available():
-        return torch.device("mps")
-    if torch.cuda.is_available():
-        return torch.device("cuda")
-    return torch.device("cpu")
-
-
-def build_transform():
-    return transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-    ])
-
-
-def build_model(num_classes):
-    model = models.resnet18(weights=ResNet18_Weights.DEFAULT)
-    num_features = model.fc.in_features
-    model.fc = nn.Linear(num_features, num_classes)
-    return model
+from model_utils import build_model, build_transform, get_device
 
 
 def evaluate(model, data_loader, loss_function, device):
@@ -119,8 +96,8 @@ def train(args):
 
         if validation_accuracy > best_validation_accuracy:
             best_validation_accuracy = validation_accuracy
-            torch.save(model, args.model_path)
-            print(f"Saved best model to {args.model_path}")
+            torch.save(model.state_dict(), args.weights_path)
+            print(f"Saved best model weights to {args.weights_path}")
 
         print("-" * 50)
 
@@ -131,7 +108,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Train a land-use image classifier.")
     parser.add_argument("--train-dir", default="DataSet/Train")
     parser.add_argument("--validate-dir", default="DataSet/Validate")
-    parser.add_argument("--model-path", default="model.pth")
+    parser.add_argument("--weights-path", default="model_weights.pth")
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch-size", type=int, default=128)
     parser.add_argument("--learning-rate", type=float, default=0.001)

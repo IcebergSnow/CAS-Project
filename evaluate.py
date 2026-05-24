@@ -15,15 +15,9 @@ import matplotlib.pyplot as plt
 import torch
 from sklearn.metrics import confusion_matrix
 from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
+from torchvision import datasets
 
-
-def get_device():
-    if torch.backends.mps.is_available():
-        return torch.device("mps")
-    if torch.cuda.is_available():
-        return torch.device("cuda")
-    return torch.device("cpu")
+from model_utils import build_transform, get_device, load_model
 
 
 def format_class_name(class_name):
@@ -62,6 +56,7 @@ def save_confusion_matrix(confusion_matrix_values, class_names, output_path):
 def parse_args():
     parser = argparse.ArgumentParser(description="Evaluate the saved land-use image classifier.")
     parser.add_argument("--test-dir", default="DataSet/Test")
+    parser.add_argument("--weights-path", default="model_weights.pth")
     parser.add_argument("--model-path", default="model.pth")
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--confusion-matrix-path", default="confusion_matrix.png")
@@ -71,19 +66,14 @@ def parse_args():
 def main():
     args = parse_args()
 
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-    ])
-
+    transform = build_transform()
     test_dataset = datasets.ImageFolder(root=args.test_dir, transform=transform)
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
 
     device = get_device()
     print(f"Using device: {device}")
 
-    model = torch.load(args.model_path, weights_only=False, map_location=device)
+    model = load_model(args.weights_path, args.model_path, device)
     model.to(device)
     model.eval()
 
