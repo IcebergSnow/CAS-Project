@@ -121,7 +121,7 @@ python evaluate.py --confusion-matrix-path results/confusion_matrix.png
 Predict the class for one image:
 
 ```bash
-python predict.py DataSet/Test/ResidentialTest/Residential_1.jpg
+python predict.py DataSet/Test/ResidentialTest/Residential_332.jpg
 ```
 
 The prediction script prints the predicted class and confidence score.
