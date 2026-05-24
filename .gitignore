@@ -1,2 +1,35 @@
-
+# macOS
 .DS_Store
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pycache/
+
+# Generated model artifacts
+model_weights.pth
+*_weights.pth
+
+# Generated reports and plots
+confusion_matrix.png
+training_curves.png
+*_confusion_matrix.png
+*_training_curves.png
+curve_smoke.png
+checkpoint_eval.png
+checkpoint_weights_eval.png
+
+# Local smoke-test outputs
+smoke_model.pth
+curve_smoke_weights.pth
