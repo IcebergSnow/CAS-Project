@@ -22,7 +22,7 @@ CAS-Project/
     Validate/
     Test/
   main.py
-  TestingCode.py
+  evaluate.py
   model.pth
   requirements.txt
 ```
@@ -105,7 +105,7 @@ The repository already includes a saved model file, `model.pth`, so you can eval
 Evaluate the saved model on the test set:
 
 ```bash
-python TestingCode.py
+python evaluate.py
 ```
 
 Train the model again:
@@ -118,16 +118,16 @@ Both scripts expect the dataset to be located in the `DataSet/` folder using the
 
 ## Device Note
 
-The current scripts use Apple's `mps` device for Apple Silicon Macs. If you are using Windows, Linux, or a computer without Apple Silicon, the code may need a device-selection update before it will run successfully.
+The evaluation script automatically chooses between Apple Silicon `mps`, NVIDIA `cuda`, and `cpu` depending on what is available.
 
-A planned improvement is to automatically choose between Apple Silicon `mps`, NVIDIA `cuda`, and `cpu` depending on what is available.
+The training script currently uses Apple's `mps` device for Apple Silicon Macs. If you are using Windows, Linux, or a computer without Apple Silicon, the training script may need a device-selection update before it will run successfully.
 
 ## Current Status
 
 The project currently includes:
 
 - A training script using transfer learning
-- A test script that reports classification accuracy
+- An evaluation script that reports classification accuracy
 - A saved trained model file
 - A train/validation/test dataset split
 - A requirements file for installing dependencies
@@ -136,12 +136,12 @@ The project currently includes:
 
 Potential next steps include:
 
+- Improve training device selection so the code works on Apple Silicon, CUDA GPUs, and CPUs
 - Use the validation set during training
 - Save the best model checkpoint based on validation accuracy
 - Add training and validation loss graphs
 - Add a confusion matrix for test results
 - Add a single-image prediction script
-- Improve device selection so the code works on Apple Silicon, CUDA GPUs, and CPUs
 
 ## Resume Summary
 
