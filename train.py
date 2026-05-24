@@ -1,5 +1,17 @@
 import argparse
+import os
+import tempfile
 
+os.environ.setdefault(
+    "MPLCONFIGDIR",
+    os.path.join(tempfile.gettempdir(), "cas-project-matplotlib"),
+)
+
+import matplotlib
+
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -31,6 +43,31 @@ def evaluate(model, data_loader, loss_function, device):
     return average_loss, accuracy
 
 
+def save_training_curves(history, output_path):
+    epochs = range(1, len(history["train_loss"]) + 1)
+
+    fig, (loss_ax, accuracy_ax) = plt.subplots(1, 2, figsize=(12, 5))
+
+    loss_ax.plot(epochs, history["train_loss"], marker="o", label="Training Loss")
+    loss_ax.plot(epochs, history["validation_loss"], marker="o", label="Validation Loss")
+    loss_ax.set_title("Loss Over Time")
+    loss_ax.set_xlabel("Epoch")
+    loss_ax.set_ylabel("Loss")
+    loss_ax.legend()
+    loss_ax.grid(True, alpha=0.3)
+
+    accuracy_ax.plot(epochs, history["validation_accuracy"], marker="o", color="green")
+    accuracy_ax.set_title("Validation Accuracy Over Time")
+    accuracy_ax.set_xlabel("Epoch")
+    accuracy_ax.set_ylabel("Accuracy (%)")
+    accuracy_ax.set_ylim(0, 100)
+    accuracy_ax.grid(True, alpha=0.3)
+
+    fig.tight_layout()
+    fig.savefig(output_path, dpi=150)
+    plt.close(fig)
+
+
 def train(args):
     transform = build_transform()
 
@@ -51,6 +88,11 @@ def train(args):
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate)
 
     best_validation_accuracy = 0.0
+    history = {
+        "train_loss": [],
+        "validation_loss": [],
+        "validation_accuracy": [],
+    }
 
     for epoch in range(args.epochs):
         model.train()
@@ -89,6 +131,10 @@ def train(args):
             device,
         )
 
+        history["train_loss"].append(train_loss)
+        history["validation_loss"].append(validation_loss)
+        history["validation_accuracy"].append(validation_accuracy)
+
         print(f"\nEpoch {epoch + 1} Summary:")
         print(f"Training Loss: {train_loss:.4f}")
         print(f"Validation Loss: {validation_loss:.4f}")
@@ -101,6 +147,8 @@ def train(args):
 
         print("-" * 50)
 
+    save_training_curves(history, args.metrics_plot_path)
+    print(f"Saved training curves to {args.metrics_plot_path}")
     print(f"Best Validation Accuracy: {best_validation_accuracy:.2f}%")
 
 
@@ -109,6 +157,7 @@ def parse_args():
     parser.add_argument("--train-dir", default="DataSet/Train")
     parser.add_argument("--validate-dir", default="DataSet/Validate")
     parser.add_argument("--weights-path", default="model_weights.pth")
+    parser.add_argument("--metrics-plot-path", default="training_curves.png")
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch-size", type=int, default=128)
     parser.add_argument("--learning-rate", type=float, default=0.001)
