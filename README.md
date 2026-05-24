@@ -133,7 +133,13 @@ Train the model again:
 python train.py
 ```
 
-The training script reports training loss, validation loss, and validation accuracy for each epoch. It saves the best model weights to `model_weights.pth` based on validation accuracy.
+The training script reports training loss, validation loss, and validation accuracy for each epoch. It saves the best model weights to `model_weights.pth` based on validation accuracy and saves a training curve plot to `training_curves.png`.
+
+To choose a different training curve output path:
+
+```bash
+python train.py --metrics-plot-path results/training_curves.png
+```
 
 For compatibility, `python main.py` also starts training.
 
@@ -157,6 +163,7 @@ The project currently includes:
 - A training script using transfer learning
 - Validation loss and accuracy tracking during training
 - Best-model weights checkpointing based on validation accuracy
+- Training curve generation for loss and validation accuracy
 - An evaluation script that reports overall accuracy and per-class accuracy
 - Confusion matrix generation for test results
 - A single-image prediction script
@@ -168,5 +175,5 @@ The project currently includes:
 
 Potential next steps include:
 
-- Add training and validation loss graphs
 - Generate and include a `model_weights.pth` checkpoint from a strong training run
+- Add a results section with saved metric images
