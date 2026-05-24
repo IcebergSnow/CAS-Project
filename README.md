@@ -71,6 +71,36 @@ Image preprocessing includes:
 - Converting images to tensors
 - Normalizing images with ImageNet mean and standard deviation values
 
+## Results
+
+The included `model.pth` checkpoint achieves the following results on the test set:
+
+| Metric | Result |
+| --- | ---: |
+| Overall accuracy | 98.64% |
+
+Per-class accuracy:
+
+| Class | Accuracy | Correct / Total |
+| --- | ---: | ---: |
+| Forest | 100.00% | 300 / 300 |
+| Industrial | 97.60% | 244 / 250 |
+| Permanent Crop | 97.20% | 243 / 250 |
+| Residential | 99.33% | 298 / 300 |
+
+Example single-image prediction:
+
+```text
+Prediction: Residential
+Confidence: 100.00%
+```
+
+These results can be reproduced with:
+
+```bash
+python evaluate.py
+```
+
 ## Setup
 
 This project uses Python with PyTorch and Torchvision. Python 3.10 or newer is recommended.
@@ -176,4 +206,4 @@ The project currently includes:
 Potential next steps include:
 
 - Generate and include a `model_weights.pth` checkpoint from a strong training run
-- Add a results section with saved metric images
+- Add saved metric images to the results section
