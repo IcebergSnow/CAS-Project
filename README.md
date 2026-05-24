@@ -21,6 +21,7 @@ CAS-Project/
     Train/
     Validate/
     Test/
+  train.py
   main.py
   evaluate.py
   model.pth
@@ -111,22 +112,26 @@ python evaluate.py
 Train the model again:
 
 ```bash
-python main.py
+python train.py
 ```
+
+The training script reports training loss, validation loss, and validation accuracy for each epoch. It saves the best model checkpoint to `model.pth` based on validation accuracy.
+
+For compatibility, `python main.py` also starts training.
 
 Both scripts expect the dataset to be located in the `DataSet/` folder using the structure shown above.
 
 ## Device Note
 
-The evaluation script automatically chooses between Apple Silicon `mps`, NVIDIA `cuda`, and `cpu` depending on what is available.
-
-The training script currently uses Apple's `mps` device for Apple Silicon Macs. If you are using Windows, Linux, or a computer without Apple Silicon, the training script may need a device-selection update before it will run successfully.
+The training and evaluation scripts automatically choose between Apple Silicon `mps`, NVIDIA `cuda`, and `cpu` depending on what is available.
 
 ## Current Status
 
 The project currently includes:
 
 - A training script using transfer learning
+- Validation loss and accuracy tracking during training
+- Best-model checkpointing based on validation accuracy
 - An evaluation script that reports classification accuracy
 - A saved trained model file
 - A train/validation/test dataset split
@@ -136,12 +141,10 @@ The project currently includes:
 
 Potential next steps include:
 
-- Improve training device selection so the code works on Apple Silicon, CUDA GPUs, and CPUs
-- Use the validation set during training
-- Save the best model checkpoint based on validation accuracy
 - Add training and validation loss graphs
 - Add a confusion matrix for test results
 - Add a single-image prediction script
+- Save model weights separately from model architecture for safer checkpoint loading
 
 ## Resume Summary
 
