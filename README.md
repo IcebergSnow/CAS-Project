@@ -24,6 +24,7 @@ CAS-Project/
   main.py
   TestingCode.py
   model.pth
+  requirements.txt
 ```
 
 ## Dataset
@@ -67,25 +68,59 @@ Image preprocessing includes:
 - Converting images to tensors
 - Normalizing images with ImageNet mean and standard deviation values
 
+## Setup
+
+This project uses Python with PyTorch and Torchvision. Python 3.10 or newer is recommended.
+
+Clone the repository and move into the project folder:
+
+```bash
+git clone https://github.com/IcebergSnow/CAS-Project.git
+cd CAS-Project
+```
+
+Create and activate a virtual environment:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+On Windows, activate the virtual environment with:
+
+```bash
+.venv\Scripts\activate
+```
+
+Install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
 ## How to Run
 
-Install the main dependencies:
-
-```bash
-pip install torch torchvision tqdm
-```
-
-Train the model:
-
-```bash
-python main.py
-```
+The repository already includes a saved model file, `model.pth`, so you can evaluate the model without training it again first.
 
 Evaluate the saved model on the test set:
 
 ```bash
 python TestingCode.py
 ```
+
+Train the model again:
+
+```bash
+python main.py
+```
+
+Both scripts expect the dataset to be located in the `DataSet/` folder using the structure shown above.
+
+## Device Note
+
+The current scripts use Apple's `mps` device for Apple Silicon Macs. If you are using Windows, Linux, or a computer without Apple Silicon, the code may need a device-selection update before it will run successfully.
+
+A planned improvement is to automatically choose between Apple Silicon `mps`, NVIDIA `cuda`, and `cpu` depending on what is available.
 
 ## Current Status
 
@@ -95,6 +130,7 @@ The project currently includes:
 - A test script that reports classification accuracy
 - A saved trained model file
 - A train/validation/test dataset split
+- A requirements file for installing dependencies
 
 ## Planned Improvements
 
@@ -106,7 +142,6 @@ Potential next steps include:
 - Add a confusion matrix for test results
 - Add a single-image prediction script
 - Improve device selection so the code works on Apple Silicon, CUDA GPUs, and CPUs
-- Add a `requirements.txt` file for reproducible setup
 
 ## Resume Summary
 
