@@ -24,6 +24,7 @@ CAS-Project/
   train.py
   main.py
   evaluate.py
+  predict.py
   model.pth
   requirements.txt
 ```
@@ -101,7 +102,7 @@ pip install -r requirements.txt
 
 ## How to Run
 
-The repository already includes a saved model file, `model.pth`, so you can evaluate the model without training it again first.
+The repository already includes a saved model file, `model.pth`, so you can evaluate the model or run predictions without training it again first.
 
 Evaluate the saved model on the test set:
 
@@ -117,6 +118,14 @@ To choose a different confusion matrix output path:
 python evaluate.py --confusion-matrix-path results/confusion_matrix.png
 ```
 
+Predict the class for one image:
+
+```bash
+python predict.py DataSet/Test/ResidentialTest/Residential_332.jpg
+```
+
+The prediction script prints the predicted class and confidence score.
+
 Train the model again:
 
 ```bash
@@ -127,11 +136,11 @@ The training script reports training loss, validation loss, and validation accur
 
 For compatibility, `python main.py` also starts training.
 
-Both scripts expect the dataset to be located in the `DataSet/` folder using the structure shown above.
+All scripts expect the dataset to be located in the `DataSet/` folder using the structure shown above.
 
 ## Device Note
 
-The training and evaluation scripts automatically choose between Apple Silicon `mps`, NVIDIA `cuda`, and `cpu` depending on what is available.
+The training, evaluation, and prediction scripts automatically choose between Apple Silicon `mps`, NVIDIA `cuda`, and `cpu` depending on what is available.
 
 ## Current Status
 
@@ -142,6 +151,7 @@ The project currently includes:
 - Best-model checkpointing based on validation accuracy
 - An evaluation script that reports overall accuracy and per-class accuracy
 - Confusion matrix generation for test results
+- A single-image prediction script
 - A saved trained model file
 - A train/validation/test dataset split
 - A requirements file for installing dependencies
@@ -151,7 +161,6 @@ The project currently includes:
 Potential next steps include:
 
 - Add training and validation loss graphs
-- Add a single-image prediction script
 - Save model weights separately from model architecture for safer checkpoint loading
 
 
