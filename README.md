@@ -154,6 +154,4 @@ Potential next steps include:
 - Add a single-image prediction script
 - Save model weights separately from model architecture for safer checkpoint loading
 
-## Resume Summary
 
-Built a PyTorch computer vision model using transfer learning with ResNet18 to classify land-use images into forest, industrial, permanent crop, and residential categories. Implemented image preprocessing, model training, and test-set evaluation using a structured train/validation/test dataset.
