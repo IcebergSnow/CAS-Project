@@ -22,7 +22,6 @@ LandUseVision/
     Validate/
     Test/
   results/
-    .gitkeep
   model_utils.py
   train.py
   main.py
@@ -98,12 +97,6 @@ Prediction: Residential
 Confidence: 100.00%
 ```
 
-These results can be reproduced with:
-
-```bash
-python evaluate.py
-```
-
 Evaluation and training plots are saved in the `results/` directory by default.
 
 ## Setup
@@ -138,7 +131,7 @@ pip install -r requirements.txt
 
 ## How to Run
 
-The repository already includes a saved model file, `model.pth`, so you can evaluate the model or run predictions without training it again first.
+The repository includes a saved model file, `model.pth`, so you can evaluate the model or run predictions without training it first.
 
 Run the demo:
 
@@ -156,12 +149,6 @@ python evaluate.py
 
 The evaluation script prints overall accuracy, per-class accuracy, and saves a confusion matrix image to `results/confusion_matrix.png`.
 
-To choose a different confusion matrix output path:
-
-```bash
-python evaluate.py --confusion-matrix-path results/custom_confusion_matrix.png
-```
-
 Predict the class for one image:
 
 ```bash
@@ -170,13 +157,13 @@ python predict.py DataSet/Test/ResidentialTest/Residential_332.jpg
 
 The prediction script prints the predicted class and confidence score.
 
-To run the demo with a different image:
+Run the demo with a different image:
 
 ```bash
-python demo.py --image-path DataSet/Test/ForestTest/Forest_1.jpg
+python demo.py --image-path DataSet/Test/ForestTest/Forest_301.jpg
 ```
 
-To skip evaluation and only run the sample prediction:
+Skip evaluation and only run the sample prediction:
 
 ```bash
 python demo.py --skip-evaluation
@@ -190,11 +177,7 @@ python train.py
 
 The training script reports training loss, validation loss, and validation accuracy for each epoch. It saves the best model weights to `model_weights.pth` based on validation accuracy and saves a training curve plot to `results/training_curves.png`.
 
-To choose a different training curve output path:
-
-```bash
-python train.py --metrics-plot-path results/custom_training_curves.png
-```
+Custom output paths can be provided with `--confusion-matrix-path` for evaluation and `--metrics-plot-path` for training.
 
 For compatibility, `python main.py` also starts training.
 
@@ -209,28 +192,3 @@ Evaluation and prediction prefer `model_weights.pth` when it exists. If it does 
 ## Device Note
 
 The training, evaluation, and prediction scripts automatically choose between Apple Silicon `mps`, NVIDIA `cuda`, and `cpu` depending on what is available.
-
-## Current Status
-
-The project currently includes:
-
-- Shared model, transform, device, and checkpoint utilities
-- A training script using transfer learning
-- Validation loss and accuracy tracking during training
-- Best-model weights checkpointing based on validation accuracy
-- Training curve generation for loss and validation accuracy
-- An evaluation script that reports overall accuracy and per-class accuracy
-- Confusion matrix generation for test results
-- A single-image prediction script
-- A demo script for evaluation plus one sample prediction
-- A saved trained model file
-- A train/validation/test dataset split
-- A results directory for generated plots and evaluation outputs
-- A requirements file for installing dependencies
-
-## Planned Improvements
-
-Potential next steps include:
-
-- Generate and include a `model_weights.pth` checkpoint from a strong training run
-- Add saved metric images to the results section
