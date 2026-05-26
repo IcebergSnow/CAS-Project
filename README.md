@@ -21,6 +21,8 @@ LandUseVision/
     Train/
     Validate/
     Test/
+  results/
+    .gitkeep
   model_utils.py
   train.py
   main.py
@@ -101,6 +103,8 @@ These results can be reproduced with:
 python evaluate.py
 ```
 
+Evaluation and training plots are saved in the `results/` directory by default.
+
 ## Setup
 
 This project uses Python with PyTorch and Torchvision. Python 3.10 or newer is recommended.
@@ -141,12 +145,12 @@ Evaluate the saved model on the test set:
 python evaluate.py
 ```
 
-The evaluation script prints overall accuracy, per-class accuracy, and saves a confusion matrix image to `confusion_matrix.png`.
+The evaluation script prints overall accuracy, per-class accuracy, and saves a confusion matrix image to `results/confusion_matrix.png`.
 
 To choose a different confusion matrix output path:
 
 ```bash
-python evaluate.py --confusion-matrix-path results/confusion_matrix.png
+python evaluate.py --confusion-matrix-path results/custom_confusion_matrix.png
 ```
 
 Predict the class for one image:
@@ -163,12 +167,12 @@ Train the model again:
 python train.py
 ```
 
-The training script reports training loss, validation loss, and validation accuracy for each epoch. It saves the best model weights to `model_weights.pth` based on validation accuracy and saves a training curve plot to `training_curves.png`.
+The training script reports training loss, validation loss, and validation accuracy for each epoch. It saves the best model weights to `model_weights.pth` based on validation accuracy and saves a training curve plot to `results/training_curves.png`.
 
 To choose a different training curve output path:
 
 ```bash
-python train.py --metrics-plot-path results/training_curves.png
+python train.py --metrics-plot-path results/custom_training_curves.png
 ```
 
 For compatibility, `python main.py` also starts training.
@@ -199,6 +203,7 @@ The project currently includes:
 - A single-image prediction script
 - A saved trained model file
 - A train/validation/test dataset split
+- A results directory for generated plots and evaluation outputs
 - A requirements file for installing dependencies
 
 ## Planned Improvements
