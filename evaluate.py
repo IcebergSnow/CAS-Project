@@ -25,6 +25,10 @@ def format_class_name(class_name):
 
 
 def save_confusion_matrix(confusion_matrix_values, class_names, output_path):
+    output_dir = os.path.dirname(output_path)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
     fig, ax = plt.subplots(figsize=(8, 6))
     image = ax.imshow(confusion_matrix_values, interpolation="nearest", cmap="Blues")
     fig.colorbar(image, ax=ax)
@@ -59,7 +63,7 @@ def parse_args():
     parser.add_argument("--weights-path", default="model_weights.pth")
     parser.add_argument("--model-path", default="model.pth")
     parser.add_argument("--batch-size", type=int, default=32)
-    parser.add_argument("--confusion-matrix-path", default="confusion_matrix.png")
+    parser.add_argument("--confusion-matrix-path", default="results/confusion_matrix.png")
     return parser.parse_args()
 
 
