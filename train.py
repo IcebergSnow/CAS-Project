@@ -44,6 +44,10 @@ def evaluate(model, data_loader, loss_function, device):
 
 
 def save_training_curves(history, output_path):
+    output_dir = os.path.dirname(output_path)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
     epochs = range(1, len(history["train_loss"]) + 1)
 
     fig, (loss_ax, accuracy_ax) = plt.subplots(1, 2, figsize=(12, 5))
@@ -157,7 +161,7 @@ def parse_args():
     parser.add_argument("--train-dir", default="DataSet/Train")
     parser.add_argument("--validate-dir", default="DataSet/Validate")
     parser.add_argument("--weights-path", default="model_weights.pth")
-    parser.add_argument("--metrics-plot-path", default="training_curves.png")
+    parser.add_argument("--metrics-plot-path", default="results/training_curves.png")
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch-size", type=int, default=128)
     parser.add_argument("--learning-rate", type=float, default=0.001)
