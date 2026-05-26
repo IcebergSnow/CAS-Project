@@ -28,6 +28,7 @@ LandUseVision/
   main.py
   evaluate.py
   predict.py
+  demo.py
   model.pth
   requirements.txt
 ```
@@ -139,6 +140,14 @@ pip install -r requirements.txt
 
 The repository already includes a saved model file, `model.pth`, so you can evaluate the model or run predictions without training it again first.
 
+Run the demo:
+
+```bash
+python demo.py
+```
+
+The demo evaluates the saved model, saves `results/confusion_matrix.png`, and predicts the class for one sample image.
+
 Evaluate the saved model on the test set:
 
 ```bash
@@ -160,6 +169,18 @@ python predict.py DataSet/Test/ResidentialTest/Residential_332.jpg
 ```
 
 The prediction script prints the predicted class and confidence score.
+
+To run the demo with a different image:
+
+```bash
+python demo.py --image-path DataSet/Test/ForestTest/Forest_1.jpg
+```
+
+To skip evaluation and only run the sample prediction:
+
+```bash
+python demo.py --skip-evaluation
+```
 
 Train the model again:
 
@@ -201,6 +222,7 @@ The project currently includes:
 - An evaluation script that reports overall accuracy and per-class accuracy
 - Confusion matrix generation for test results
 - A single-image prediction script
+- A demo script for evaluation plus one sample prediction
 - A saved trained model file
 - A train/validation/test dataset split
 - A results directory for generated plots and evaluation outputs
