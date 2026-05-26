@@ -4,7 +4,7 @@ import tempfile
 
 os.environ.setdefault(
     "MPLCONFIGDIR",
-    os.path.join(tempfile.gettempdir(), "cas-project-matplotlib"),
+    os.path.join(tempfile.gettempdir(), "landusevision-matplotlib"),
 )
 
 import matplotlib
