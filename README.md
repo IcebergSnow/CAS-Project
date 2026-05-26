@@ -1,6 +1,6 @@
-# CAS Project
+# LandUseVision
 
-CAS Project is a computer vision project that classifies land-use images into four categories:
+LandUseVision is a computer vision project that classifies land-use images into four categories:
 
 - Forest
 - Industrial
@@ -16,7 +16,7 @@ The goal of this project is to build an image classifier that can recognize diff
 ## Repository Contents
 
 ```text
-CAS-Project/
+LandUseVision/
   DataSet/
     Train/
     Validate/
@@ -108,8 +108,8 @@ This project uses Python with PyTorch and Torchvision. Python 3.10 or newer is r
 Clone the repository and move into the project folder:
 
 ```bash
-git clone https://github.com/IcebergSnow/CAS-Project.git
-cd CAS-Project
+git clone https://github.com/IcebergSnow/LandUseVision.git
+cd LandUseVision
 ```
 
 Create and activate a virtual environment:
