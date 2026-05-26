@@ -8,7 +8,7 @@ DEFAULT_IMAGE_PATH = "DataSet/Test/ResidentialTest/Residential_332.jpg"
 
 
 def run_command(command):
-    print(f"\n$ {' '.join(command)}")
+    print(f"\n$ {' '.join(command)}", flush=True)
     subprocess.run(command, check=True)
 
 
@@ -36,7 +36,7 @@ def main():
     if not image_path.exists():
         raise FileNotFoundError(f"Sample image not found: {image_path}")
 
-    print("LandUseVision demo")
+    print("LandUseVision demo", flush=True)
 
     if not args.skip_evaluation:
         run_command([sys.executable, "evaluate.py"])
