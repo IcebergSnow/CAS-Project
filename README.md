@@ -30,6 +30,7 @@ LandUseVision/
   demo.py
   model.pth
   requirements.txt
+  LICENSE
 ```
 
 ## Dataset
@@ -192,3 +193,7 @@ Evaluation and prediction prefer `model_weights.pth` when it exists. If it does 
 ## Device Note
 
 The training, evaluation, and prediction scripts automatically choose between Apple Silicon `mps`, NVIDIA `cuda`, and `cpu` depending on what is available.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
